@@ -46,7 +46,7 @@ def main():
     parser.add_argument('-i', '--interact', action='store_true',
                         help='Submit as an interactive job')
     parser.add_argument('-s', '--server', help='Server host name')
-    parser.add_argument('--gpuid', help='GPU ID to be used')
+    parser.add_argument('--gpuid', help='GPU ID to be used; -1 to use CPU only')
     args = parser.parse_args()
 
     machine, gpuid = args.server, args.gpuid

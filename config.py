@@ -5,6 +5,7 @@ LAN = None
 servers = ['server1', 'server2']
 
 # GPUs to be excluded
+# e.g., gpus_exclude = ['Quadro'] to exclude all GPUs whose name contains 'Quadro'
 gpus_exclude = []
 
 # the root folder to run your job
