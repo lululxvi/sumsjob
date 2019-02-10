@@ -48,6 +48,8 @@ ln -s /opt/sumsjob/submit.py ~/.local/bin/submit
 ```
 
 - Configuration: Read the comments in [config.py](config.py), and modify the values to your configurations.
+- Make sure you can `ssh` to each server.
+- Run `gpuresource` to check if everything works.
 
 ## License
 
