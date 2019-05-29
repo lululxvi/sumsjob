@@ -54,7 +54,7 @@ def main():
 
     machine, gpuid = args.server, args.gpuid
     if machine is None:
-        machine, gpuid = gpu_available()
+        machine, gpuid = gpu_available(first_only=True)
     else:
         if gpuid == "-1":
             print("Server: %s, CPU" % machine)
