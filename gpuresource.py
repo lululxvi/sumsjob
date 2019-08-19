@@ -37,24 +37,27 @@ def gpuresource():
         yield gpustat(m, stat)
 
 
-def gpu_available(first_only=False):
+def gpu_available(first_only=False, verbose=0):
     gm, gavail = None, None
     for m, stat, avail in gpuresource():
-        print(stat)
+        if verbose == 2:
+            print(stat)
         if gavail is None and avail is not None:
             gm, gavail = m, avail
             if first_only:
                 break
     if gm is None:
-        print("No available GPU.")
+        if verbose > 0:
+            print("No available GPU.")
         return None, None
     else:
-        print("Available GPU: {} [{}]\n".format(gm, gavail))
+        if verbose > 0:
+            print("Available GPU: {} [{}]\n".format(gm, gavail))
         return gm, gavail
 
 
 def main():
-    gpu_available()
+    gpu_available(verbose=2)
 
 
 if __name__ == "__main__":
