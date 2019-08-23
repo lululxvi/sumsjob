@@ -31,7 +31,10 @@ def gpuresource():
         cmd = "ssh {} 'gpustat -cup'".format(m)
         if config.LAN is not None:
             cmd = '''ssh {} "{}"'''.format(config.LAN, cmd)
-        stat = subprocess.check_output(cmd, shell=True)
+        try:
+            stat = subprocess.check_output(cmd, shell=True)
+        except subprocess.CalledProcessError:
+            continue
         if sys.version_info >= (3, 0):
             stat = stat.decode("utf-8")
         yield gpustat(m, stat)
