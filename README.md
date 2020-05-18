@@ -2,6 +2,8 @@
 
 &Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources. It will first look for servers with available resources, such as GPUs, and then run the job in that server interactively just as the job is running in your local machine.
 
+**Tutorial**: [Slides](tutorials/sumsjob.pdf)
+
 ## Features
 
 - Simple to use: one single `submit` command is all your need
