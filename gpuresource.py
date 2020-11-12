@@ -34,6 +34,7 @@ def gpuresource():
         try:
             stat = subprocess.check_output(cmd, shell=True)
         except subprocess.CalledProcessError:
+            print("Failed to get the GPU status on {}\n".format(m))
             continue
         if sys.version_info >= (3, 0):
             stat = stat.decode("utf-8")
