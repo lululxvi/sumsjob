@@ -85,7 +85,7 @@ def submit_one(
     sys.stdout.flush()
 
     if interact:
-        cmd = "ssh -tX {} 'cd {} && CUDA_VISIBLE_DEVICES={} {} {} |& tee {}.log'".format(
+        cmd = "ssh -tX {} 'cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log'".format(
             machine, runpath, gpuid, config.cmd, jobpy, jobname
         )
         if config.LAN is not None:
