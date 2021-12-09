@@ -1,8 +1,11 @@
 # &Sigma;&Sigma;<sub>Job</sub>
 
+[![PyPI version](https://badge.fury.io/py/SumsJob.svg)](https://badge.fury.io/py/SumsJob)
+[![License](https://img.shields.io/github/license/lululxvi/sumsjob)](https://github.com/lululxvi/sumsjob/blob/master/LICENSE)
+
 &Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources. It will first look for servers with available resources, such as GPUs, and then run the job in that server interactively just as the job is running in your local machine.
 
-**Tutorial**: [Slides](tutorials/sumsjob.pdf)
+**Tutorial**: [Slides](https://github.com/lululxvi/sumsjob/blob/master/tutorials/sumsjob.pdf)
 
 ## Features
 
@@ -41,7 +44,7 @@ Then, you can install Sums<sub>Job</sub> with `pip`:
 $ pip install sumsjob
 ```
 
-You need to have a configuration file at `~/.sumsjob/config.py`. Use [config.py](sumsjob/config.py) as a template, and modify the values to your configurations.
+You need to have a configuration file at `~/.sumsjob/config.py`. Use [config.py](https://github.com/lululxvi/sumsjob/blob/master/sumsjob/config.py) as a template, and modify the values to your configurations.
 
 - Make sure you can `ssh` to each server.
 - Run `gpuresource` to check if everything works. Make sure `~/.local/bin` is in your `$PATH`.
