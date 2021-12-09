@@ -5,7 +5,7 @@
 
 &Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources. It will first look for servers with available resources, such as GPUs, and then run the job in that server interactively just as the job is running in your local machine.
 
-**Tutorial**: [Slides](https://github.com/lululxvi/sumsjob/blob/master/tutorials/sumsjob.pdf)
+**Documentation**: [Slides](https://github.com/lululxvi/sumsjob/blob/master/docs/sumsjob.pdf)
 
 ## Motivation
 
@@ -51,7 +51,7 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes these steps automatic
 
 Show the status of GPUs on all servers. For example,
 
-![](https://github.com/lululxvi/sumsjob/blob/master/tutorials/figs/gpuresource.png)
+![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/gpuresource.png)
 
 ### `$ submit jobfile jobname`
 
@@ -73,7 +73,7 @@ Options:
 
 ## Installation
 
-You can install Sums<sub>Job</sub> with `pip`:
+Install Sums<sub>Job</sub> with `pip`:
 
 ```
 $ pip install sumsjob
