@@ -1,25 +1,32 @@
 % $\Sigma\Sigma_{Job}$: Sums~Job~ (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission)
 % Lu Lu
-% Mar 29, 2019 @Crunch Seminar
+% Dec 9, 2021
 
-# To run a job...
+# Assume you have GPU servers: `server1`, `server2`, ...
 
-From division machine without free GPUs
+When you need to run a code from your computer, you will
 
-1. `ssh jueying`
-2. `nvidia-smi`: If no free GPU, go to step 1
-3. `cd ~/project/codes`
-4. `CUDA_VISIBLE_DEVICES=0 python main.py`
+1. Select one server and log in
 
-From personal computer
+       $ ssh LAN (May first log in a local area network)
+       $ ssh server1
 
-1. `scp -r codes dam:~/project/codes`
-2. `ssh dam`
-3. `ssh jueying`
-4. `nvidia-smi`: If no free GPU, go to step 1
-5. `cd ~/project/codes`
-6. `CUDA_VISIBLE_DEVICES=0 python main.py`
-7. `scp dam:~/project/codes/ml.dat .`
+1. Check GPU status. If no free GPU, go to step 1
+
+   `$ nvidia-smi` or `$ gpustat`
+
+1. Copy the code from your computer to the server
+
+       $ scp -r codes server1:~/project/codes
+
+1. Run the code in the server
+
+       $ cd ~/project/codes
+       $ CUDA_VISIBLE_DEVICES=0 python main.py
+
+1. Transfer back the results
+
+       $ scp server1:~/project/codes/ml.dat .
 
 # One week later...
 
@@ -35,7 +42,7 @@ Sums~Job~ (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mi
 
 Features
 
-- Simple to use: one single `submit` command is all your need
+- Simple to use: commands `gpuresource` and `submit` are all your need
 - Automatically choose available GPUs among all the servers
 - interactively: just as the job is running in your local machine
     + Display the output of the job in real time
@@ -49,33 +56,20 @@ Show the status of GPUs on all servers.
 
 ![Demo.](figs/gpuresource.png)
 
-# `$ submit`
+# `$ submit jobfile jobname`
 
-`$ submit jobfile jobname`
+Automatically do the following:
+
+1. Find a server with free GPU
+1. Copy the code to the server
+1. Run the job on it
+1. When the code finishes, transfer back the results
 
 - `jobfile` : File to be run
-- `jobname` : Job name, and also the folder name of the job
+- `jobname` : Job name, and also the folder name of the job. If not provided, a random number will be used.
 
 Options:
 
 - `-h`, `--help` : Show this help message and exit
-- `-i`, `--interact` : Submit as an interactive job
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
-
-# Installation
-
-- Download: <https://github.com/lululxvi/sumsjob>
-- Make it executable (use `sudo` if needed)
-
-```
-chmod +x /opt/sumsjob/gpuresource.py
-chmod +x /opt/sumsjob/submit.py
-```
-
-- Link Sums~Job~ to `~/.local/bin` (Assuming `~/.local/bin` is in your `$PATH`)
-
-```
-ln -s /opt/sumsjob/gpuresource.py ~/.local/bin/gpuresource
-ln -s /opt/sumsjob/submit.py ~/.local/bin/submit
-```
