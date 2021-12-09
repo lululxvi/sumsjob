@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse
 import os
 import pickle
@@ -10,7 +8,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
-from gpuresource import gpu_available
+from .gpuresource import gpu_available
 
 
 def get_machine(machine, gpuid, verbose=0):

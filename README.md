@@ -33,25 +33,18 @@ Options:
 
 ## Installation
 
-- Install [gpustat](https://github.com/wookayin/gpustat) in each server
-- Clone or download this package to the location you like, e.g., `/opt/sumsjob`
-- Run the following commands to make it executable (use `sudo` if needed)
+Install [gpustat](https://github.com/wookayin/gpustat) in each server.
+
+Then, you can install Sums<sub>Job</sub> with `pip`:
 
 ```
-chmod +x /opt/sumsjob/gpuresource.py
-chmod +x /opt/sumsjob/submit.py
+$ pip install sumsjob
 ```
 
-- Link Sums<sub>Job</sub> to `~/.local/bin` (Assuming `~/.local/bin` is in your `$PATH`)
+You need to have a configuration file at `~/.sumsjob/config.py`. Use [config.py](sumsjob/config.py) as a template, and modify the values to your configurations.
 
-```
-ln -s /opt/sumsjob/gpuresource.py ~/.local/bin/gpuresource
-ln -s /opt/sumsjob/submit.py ~/.local/bin/submit
-```
-
-- Configuration: Read the comments in [config.py](config.py), and modify the values to your configurations.
 - Make sure you can `ssh` to each server.
-- Run `gpuresource` to check if everything works.
+- Run `gpuresource` to check if everything works. Make sure `~/.local/bin` is in your `$PATH`.
 
 ## License
 
