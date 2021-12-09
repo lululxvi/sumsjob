@@ -7,22 +7,60 @@
 
 **Tutorial**: [Slides](https://github.com/lululxvi/sumsjob/blob/master/tutorials/sumsjob.pdf)
 
+## Motivation
+
+Assume you have a few GPU servers: `server1`, `server2`, ... When you need to run a code from your computer, you will
+
+1. Select one server and log in
+
+       $ ssh LAN (You may need to first log in a local area network)
+       $ ssh server1
+
+1. Check GPU status. If no free GPU, go to step 1
+
+   `$ nvidia-smi` or `$ gpustat`
+
+1. Copy the code from your computer to the server
+
+       $ scp -r codes server1:~/project/codes
+
+1. Run the code in the server
+
+       $ cd ~/project/codes
+       $ CUDA_VISIBLE_DEVICES=0 python main.py
+
+1. Transfer back the results
+
+       $ scp server1:~/project/codes/results.dat .
+
+These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes these steps automatic.
+
 ## Features
 
-- Simple to use: one single `submit` command is all your need
+- Simple to use: commands `gpuresource` and `submit` are all your need
 - Automatically choose available GPUs among all the servers
-- Display the output of the job in real time
-- Kill the job by Ctrl-C
-- Save the output in a log file
-- Transfer back the files you specified
+- interactively: just as the job is running in your local machine
+    + Display the output of the job in real time
+    + Kill the job by Ctrl-C
+    + Save the output in a log file
+    + Transfer back the files you specified
 
 ## Usage
 
 ### `$ gpuresource`
 
-Show the status of GPUs on all servers.
+Show the status of GPUs on all servers. For example,
+
+![](https://github.com/lululxvi/sumsjob/blob/master/tutorials/figs/gpuresource.png)
 
 ### `$ submit jobfile jobname`
+
+Automatically do the following:
+
+1. Find a server with free GPU
+1. Copy the code to the server
+1. Run the job on it
+1. When the code finishes, transfer back the results
 
 - `jobfile` : File to be run
 - `jobname` : Job name, and also the folder name of the job. If not provided, a random number will be used.
@@ -35,18 +73,20 @@ Options:
 
 ## Installation
 
-Install [gpustat](https://github.com/wookayin/gpustat) in each server.
-
-Then, you can install Sums<sub>Job</sub> with `pip`:
+You can install Sums<sub>Job</sub> with `pip`:
 
 ```
 $ pip install sumsjob
 ```
 
-You need to have a configuration file at `~/.sumsjob/config.py`. Use [config.py](https://github.com/lululxvi/sumsjob/blob/master/sumsjob/config.py) as a template, and modify the values to your configurations.
+You also need to do the following:
 
-- Make sure you can `ssh` to each server.
-- Run `gpuresource` to check if everything works. Make sure `~/.local/bin` is in your `$PATH`.
+- Make sure you can `ssh` to each server, ideally without typing the password by SSH keys.
+- Install [gpustat](https://github.com/wookayin/gpustat) in each server.
+- Have a configuration file at `~/.sumsjob/config.py`. Use [config.py](https://github.com/lululxvi/sumsjob/blob/master/sumsjob/config.py) as a template, and modify the values to your configurations.
+- Make sure `~/.local/bin` is in your `$PATH`.
+
+Then run `gpuresource` to check if everything works.
 
 ## License
 
