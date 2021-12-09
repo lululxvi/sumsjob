@@ -141,11 +141,13 @@ def main():
     parser = argparse.ArgumentParser(description="Submit a job to (GPU) servers.")
     parser.add_argument("jobfile", help="File to be run")
     parser.add_argument(
-        "jobname", nargs="?", help="Job name, and also the folder name of the job"
+        "jobname",
+        nargs="?",
+        help="Job name, and also the folder name of the job. If not provided, a random number will be used.",
     )
-    parser.add_argument(
-        "-i", "--interact", action="store_true", help="Submit as an interactive job"
-    )
+    # parser.add_argument(
+    #     "-i", "--interact", action="store_true", help="Submit as an interactive job"
+    # )
     parser.add_argument("-s", "--server", help="Server host name")
     parser.add_argument("--gpuid", help="GPU ID to be used; -1 to use CPU only")
     args = parser.parse_args()
@@ -155,7 +157,7 @@ def main():
         jobname=args.jobname,
         machine=args.server,
         gpuid=args.gpuid,
-        interact=args.interact,
+        interact=True,  # args.interact,
         verbose=2,
     )
 

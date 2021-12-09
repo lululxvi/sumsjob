@@ -25,12 +25,11 @@ Show the status of GPUs on all servers.
 ### `$ submit jobfile jobname`
 
 - `jobfile` : File to be run
-- `jobname` : Job name, and also the folder name of the job
+- `jobname` : Job name, and also the folder name of the job. If not provided, a random number will be used.
 
 Options:
 
 - `-h`, `--help` : Show this help message and exit
-- `-i`, `--interact` : Submit as an interactive job
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
 
