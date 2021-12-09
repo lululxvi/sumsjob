@@ -8,6 +8,7 @@ import time
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
 from gpuresource import gpu_available
 
