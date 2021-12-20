@@ -92,30 +92,45 @@ def submit_one(
         subprocess.check_call(cmd, shell=True)
         pull_files(machine, runpath, verbose=verbose)
     else:
-        # Send command to a detached screen session
-        # https://raymii.org/s/snippets/Sending_commands_or_input_to_a_screen_session.html
-        # https://askubuntu.com/questions/983063/start-a-screen-session-and-run-a-script-without-attaching-to-it
-        # Start a detached screen
-        cmd_server = f"screen -dmS {jobname}"
-        cmd = f"ssh {machine} '{cmd_server}'"
-        if verbose == 2:
-            print(cmd)
-        subprocess.check_call(cmd, shell=True)
-        # Send command to that session
+        # Start a new screen session in the backgroun; run the code;
+        # As soon as the code finishes, the screen session terminates.
+        # - https://serverfault.com/questions/104668/create-screen-and-run-command-without-attaching
+        # - https://askubuntu.com/questions/62562/run-a-program-with-gnu-screen-and-immediately-detach-after
         cmd_run = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
             runpath, gpuid, config.cmd, jobpy, jobname
         )
-        cmd_server = f'screen -S {jobname} -p 0 -X stuff "{cmd_run}^M"'
+        cmd_server = f'screen -dmS {jobname} bash -c "{cmd_run}"'
         cmd = f"ssh {machine} '{cmd_server}'"
         if verbose == 2:
             print(cmd)
         subprocess.check_call(cmd, shell=True)
+
+        # If we want to keep the screen session, send command to a detached screen session
+        # - https://raymii.org/s/snippets/Sending_commands_or_input_to_a_screen_session.html
+        # - https://askubuntu.com/questions/983063/start-a-screen-session-and-run-a-script-without-attaching-to-it
+        # Start a detached screen
+        # cmd_server = f"screen -dmS {jobname}"
+        # cmd = f"ssh {machine} '{cmd_server}'"
+        # if verbose == 2:
+        #     print(cmd)
+        # subprocess.check_call(cmd, shell=True)
+        # Send command to that session session
+        # cmd_run = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
+        #     runpath, gpuid, config.cmd, jobpy, jobname
+        # )
+        # cmd_server = f'screen -S {jobname} -X stuff "{cmd_run}^M"'
+        # cmd = f"ssh {machine} '{cmd_server}'"
+        # if verbose == 2:
+        #     print(cmd)
+        # subprocess.check_call(cmd, shell=True)
+
         # Show sessions
         cmd_server = "screen -list"
         cmd = f"ssh {machine} '{cmd_server}'"
         if verbose == 2:
             print(cmd)
         subprocess.check_call(cmd, shell=True)
+        print(f"Job name: {jobname}")
     return runpath
 
 
