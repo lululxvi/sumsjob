@@ -92,6 +92,15 @@ def submit_one(
         subprocess.check_call(cmd, shell=True)
         pull_files(machine, runpath, verbose=verbose)
     else:
+        cmd_server = f"screen -dmS {jobname}"
+        cmd = f"ssh {machine} '{cmd_server}'"
+        if verbose == 2:
+            print(cmd)
+        subprocess.check_call(cmd, shell=True)
+        # cmd_run = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
+        #     runpath, gpuid, config.cmd, jobpy, jobname
+        # )
+        # cmd = f'''screen -S {jobname} -p 0 -X stuff "{cmd_run}"'''
         raise NotImplementedError("Does not support non-interactive job yet.")
     return runpath
 
@@ -145,9 +154,9 @@ def main():
         nargs="?",
         help="Job name, and also the folder name of the job. If not provided, a random number will be used.",
     )
-    # parser.add_argument(
-    #     "-i", "--interact", action="store_true", help="Submit as an interactive job"
-    # )
+    parser.add_argument(
+        "-i", "--interact", action="store_true", help="Submit as an interactive job"
+    )
     parser.add_argument("-s", "--server", help="Server host name")
     parser.add_argument("--gpuid", help="GPU ID to be used; -1 to use CPU only")
     args = parser.parse_args()
@@ -157,7 +166,7 @@ def main():
         jobname=args.jobname,
         machine=args.server,
         gpuid=args.gpuid,
-        interact=True,  # args.interact,
+        interact=args.interact,
         verbose=2,
     )
 
