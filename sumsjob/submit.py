@@ -92,16 +92,30 @@ def submit_one(
         subprocess.check_call(cmd, shell=True)
         pull_files(machine, runpath, verbose=verbose)
     else:
+        # Send command to a detached screen session
+        # https://raymii.org/s/snippets/Sending_commands_or_input_to_a_screen_session.html
+        # https://askubuntu.com/questions/983063/start-a-screen-session-and-run-a-script-without-attaching-to-it
+        # Start a detached screen
         cmd_server = f"screen -dmS {jobname}"
         cmd = f"ssh {machine} '{cmd_server}'"
         if verbose == 2:
             print(cmd)
         subprocess.check_call(cmd, shell=True)
-        # cmd_run = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
-        #     runpath, gpuid, config.cmd, jobpy, jobname
-        # )
-        # cmd = f'''screen -S {jobname} -p 0 -X stuff "{cmd_run}"'''
-        raise NotImplementedError("Does not support non-interactive job yet.")
+        # Send command to that session
+        cmd_run = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
+            runpath, gpuid, config.cmd, jobpy, jobname
+        )
+        cmd_server = f'screen -S {jobname} -p 0 -X stuff "{cmd_run}^M"'
+        cmd = f"ssh {machine} '{cmd_server}'"
+        if verbose == 2:
+            print(cmd)
+        subprocess.check_call(cmd, shell=True)
+        # Show sessions
+        cmd_server = "screen -list"
+        cmd = f"ssh {machine} '{cmd_server}'"
+        if verbose == 2:
+            print(cmd)
+        subprocess.check_call(cmd, shell=True)
     return runpath
 
 
