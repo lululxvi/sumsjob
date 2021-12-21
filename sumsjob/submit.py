@@ -130,7 +130,8 @@ def submit_one(
         if verbose == 2:
             print(cmd)
         subprocess.check_call(cmd, shell=True)
-        print(f"Job name: {jobname}")
+        print(f"Server: {machine}")
+        print(f"Job: {jobname}")
     return runpath
 
 

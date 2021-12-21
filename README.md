@@ -33,17 +33,17 @@ Assume you have a few GPU servers: `server1`, `server2`, ... When you need to ru
 
        $ scp server1:~/project/codes/results.dat .
 
-These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes these steps automatic.
+These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps automatic.
 
 ## Features
 
 - Simple to use: commands `gpuresource` and `submit` are all your need
-- Automatically choose available GPUs among all the servers
-- interactively: just as the job is running in your local machine
-    + Display the output of the job in real time
+- Two modes: noninteractive mode, and interactive mode
+- Noninteractive mode: the job will be running in the background of the server
+    + You can turn off your local machine
+- Interactive mode: just as the job is running in your local machine
+    + Display the output of the program in the terminal of your local machine in real time
     + Kill the job by Ctrl-C
-    + Save the output in a log file
-    + Transfer back the files you specified
 
 ## Usage
 
@@ -53,14 +53,15 @@ Show the status of GPUs on all servers. For example,
 
 ![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/gpuresource.png)
 
-### `$ submit jobfile jobname`
+### `$ submit jobfile [jobname]`
 
-Automatically do the following:
+Submit a job to (GPU) servers. Automatically do the following steps:
 
-1. Find a server with free GPU
-1. Copy the code to the server
-1. Run the job on it
-1. When the code finishes, transfer back the results
+1. Find a server with free GPU. You can specify the server and GPU ID by `-s SERVER` and `--gpuid GPUID`.
+1. Copy the code to the server.
+1. Run the job on it in noninteractive mode (default) or interactive mode (with `-i`).
+1. Save the output in a log file.
+1. For interactive mode, when the code finishes, transfer back the result files and the log file.
 
 - `jobfile` : File to be run
 - `jobname` : Job name, and also the folder name of the job. If not provided, a random number will be used.
@@ -68,6 +69,7 @@ Automatically do the following:
 Options:
 
 - `-h`, `--help` : Show this help message and exit
+- `-i`, `--interact` : Submit as an interactive job
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
 
