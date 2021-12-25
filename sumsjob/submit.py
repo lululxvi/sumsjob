@@ -9,6 +9,7 @@ import time
 sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
 from .gpuresource import gpu_available
+from .utils import local_cmdline
 
 
 def get_machine(machine, gpuid, verbose=0):
@@ -82,13 +83,10 @@ def submit_one(
     sys.stdout.flush()
 
     if interact:
-        cmd = "ssh -tX {} 'cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log'".format(
-            machine, runpath, gpuid, config.cmd, jobpy, jobname
+        cmd = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
+            runpath, gpuid, config.cmd, jobpy, jobname
         )
-        if config.LAN is not None:
-            cmd = '''ssh -tX {} "{}"'''.format(config.LAN, cmd)
-        if verbose == 2:
-            print(cmd)
+        cmd = local_cmdline(machine, cmd, interact=True, verbose=verbose)
         subprocess.check_call(cmd, shell=True)
         pull_files(machine, runpath, verbose=verbose)
     else:
@@ -96,13 +94,11 @@ def submit_one(
         # As soon as the code finishes, the screen session terminates.
         # - https://serverfault.com/questions/104668/create-screen-and-run-command-without-attaching
         # - https://askubuntu.com/questions/62562/run-a-program-with-gnu-screen-and-immediately-detach-after
-        cmd_run = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
+        cmd = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
             runpath, gpuid, config.cmd, jobpy, jobname
         )
-        cmd_server = f'screen -dmS {jobname} bash -c "{cmd_run}"'
-        cmd = f"ssh {machine} '{cmd_server}'"
-        if verbose == 2:
-            print(cmd)
+        cmd = f'screen -dmS {jobname} bash -c "{cmd}"'
+        cmd = local_cmdline(machine, cmd, verbose=verbose)
         subprocess.check_call(cmd, shell=True)
 
         # If we want to keep the screen session, send command to a detached screen session
@@ -125,10 +121,8 @@ def submit_one(
         # subprocess.check_call(cmd, shell=True)
 
         # Show sessions
-        cmd_server = "screen -list"
-        cmd = f"ssh {machine} '{cmd_server}'"
-        if verbose == 2:
-            print(cmd)
+        cmd = "screen -list"
+        cmd = local_cmdline(machine, cmd, verbose=verbose)
         subprocess.check_call(cmd, shell=True)
         print(f"Server: {machine}")
         print(f"Job: {jobname}")
@@ -144,7 +138,7 @@ def submit(
     inobj=None,
     infile="in.pickle",
     retry_num=1,
-    retry_period=0,
+    retry_period=60,
     verbose=0,
 ):
     for _ in range(retry_num - 1):

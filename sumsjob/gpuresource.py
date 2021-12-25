@@ -4,6 +4,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
+from .utils import local_cmdline
 
 
 def exclude_gpus(lines):
@@ -26,9 +27,8 @@ def gpustat(machine, stat):
 
 def gpuresource():
     for m in config.servers:
-        cmd = "ssh {} 'gpustat -cup'".format(m)
-        if config.LAN is not None:
-            cmd = '''ssh {} "{}"'''.format(config.LAN, cmd)
+        cmd = "gpustat -cup"
+        cmd = local_cmdline(m, cmd, verbose=0)
         try:
             stat = subprocess.check_output(cmd, shell=True)
         except subprocess.CalledProcessError:

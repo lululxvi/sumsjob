@@ -2,7 +2,8 @@
 servers = ["server1", "server2"]
 
 # In some situations, you may need to first log in a local area network (LAN) to access
-# the servers. In this case, provide the host name of LAN.
+# the servers. In this case, provide the host name of LAN. Also, the same home folder
+# should be shared between LAN and all servers.
 # None if LAN is not required.
 LAN = None
 
