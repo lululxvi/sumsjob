@@ -2,9 +2,9 @@ import argparse
 import os
 import pickle
 import random
-import time
 import subprocess
 import sys
+import time
 
 sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
@@ -16,11 +16,11 @@ def get_machine(machine, gpuid, verbose=0):
         machine, gpuid = gpu_available(first_only=True, verbose=verbose)
     else:
         if gpuid == "-1":
-            if verbose == 1:
+            if verbose > 0:
                 print("Server: %s, CPU" % machine)
             gpuid = ""
         else:
-            if verbose == 1:
+            if verbose > 0:
                 print("Server: %s, gpuid: %s" % (machine, gpuid))
     return machine, gpuid
 
