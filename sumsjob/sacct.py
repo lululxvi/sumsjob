@@ -1,3 +1,4 @@
+import datetime
 import os
 import subprocess
 import sys
@@ -5,6 +6,14 @@ import sys
 sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
 from .utils import local_cmdline
+
+
+def order_by_start(jobs):
+    for job in jobs:
+        job["Start datetime"] = datetime.datetime.strptime(
+            job["Start"], "%m/%d/%Y %I:%M:%S %p"
+        )
+    return sorted(jobs, key=lambda e: e["Start datetime"])
 
 
 def sacct():
@@ -30,14 +39,16 @@ def sacct():
             session_name, creation_time = l.split("\t")[:2]
             session_name = session_name.split(".", 1)[1]
             creation_time = creation_time[1:-1]
-            jobs.append([m, session_name, creation_time])
+            jobs.append({"Server": m, "JobName": session_name, "Start": creation_time})
 
-    print("Server   JobName          StartTime")
+    jobs = order_by_start(jobs)
+    print("Server   JobName          Start")
     print("-------- ---------------- ----------------------")
-    for m, session_name, creation_time in jobs:
+    for job in jobs:
+        session_name = job["JobName"]
         if len(session_name) > 16:
             session_name = session_name[:15] + "+"
-        print(f"{m:<8} {session_name:<16} {creation_time}")
+        print(f"{job['Server']:<8} {session_name:<16} {job['Start']}")
     return jobs
 
 
