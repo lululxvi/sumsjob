@@ -4,9 +4,12 @@
 [![Downloads](https://pepy.tech/badge/sumsjob)](https://pepy.tech/project/sumsjob)
 [![License](https://img.shields.io/github/license/lululxvi/sumsjob)](https://github.com/lululxvi/sumsjob/blob/master/LICENSE)
 
-&Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources. It will first look for servers with available resources, such as GPUs, and then run the job in that server interactively just as the job is running in your local machine.
+&Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources such as GPUs. &Sigma;&Sigma;<sub>Job</sub> provides similar key functions for multiple servers as [Slurm Workload Manager](https://slurm.schedmd.com) for supercomputers and computer clusters. It provides three key functions:
 
-**Documentation**: [Slides](https://github.com/lululxvi/sumsjob/blob/master/docs/sumsjob.pdf)
+- show the status of GPUs on all servers,
+- submit a job to servers in noninteractive mode, i.e., the job will be running in the background of the server,
+- submit a job to servers in interactive mode, just as the job is running in your local machine,
+- display all running jobs.
 
 ## Motivation
 
@@ -38,7 +41,7 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps autom
 
 ## Features
 
-- Simple to use: commands `gpuresource` and `submit` are all your need
+- Simple to use
 - Two modes: noninteractive mode, and interactive mode
 - Noninteractive mode: the job will be running in the background of the server
     + You can turn off your local machine
@@ -73,6 +76,12 @@ Options:
 - `-i`, `--interact` : Submit as an interactive job
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
+
+### `$ sacct`
+
+Display all running jobs ordered by the start time. For example,
+
+![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/sacct.png)
 
 ## Installation
 
