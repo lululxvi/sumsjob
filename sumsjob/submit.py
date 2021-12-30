@@ -71,7 +71,7 @@ def submit_one(
         return
 
     if jobname is None:
-        jobname = "%d_%04x" % (time.time(), random.randint(0, int("ffff", 16)))
+        jobname = "%d%04x" % (time.time(), random.randint(0, int("ffff", 16)))
     runpath = os.path.join(config.path_prefix, jobname)
 
     push_files("./", machine, runpath, options=config.files_push, verbose=verbose)
@@ -99,7 +99,7 @@ def submit_one(
         cmd = "cd {} && CUDA_VISIBLE_DEVICES={} {} {} 2>&1 | tee {}.log".format(
             runpath, gpuid, config.cmd, jobpy, jobname
         )
-        cmd = f'screen -dmS {jobname} bash -c "{cmd}"'
+        cmd = f'screen -dmS sumsjob-{jobname} bash -c "{cmd}"'
         cmd = local_cmdline(machine, cmd, verbose=verbose)
         subprocess.check_call(cmd, shell=True)
 

@@ -27,30 +27,30 @@ def sacct():
 
         # Example:
         # There is a screen on:
-        #         47065.1640588557_8760   (12/27/2021 02:02:41 AM)        (Detached)
+        #         47065.sumsjob-jobname   (12/27/2021 02:02:41 AM)        (Detached)
         # 1 Sockets in /run/screen/S-lu.
         # Or
         # No Sockets found in /run/screen/S-lu.
         lines = process.stdout.strip().split("\n")
-        lines = filter(lambda l: "Detached" in l, lines)
+        lines = filter(lambda l: "sumsjob-" in l, lines)
         if not lines:
             continue
 
         lines = map(lambda l: l.strip(), lines)
         for l in lines:
             session_name, creation_time = l.split("\t")[:2]
-            session_name = session_name.split(".", 1)[1]
+            job_name = session_name.split("sumsjob-", 1)[1]
             creation_time = creation_time[1:-1]
-            jobs.append({"Server": m, "JobName": session_name, "Start": creation_time})
+            jobs.append({"Server": m, "JobName": job_name, "Start": creation_time})
 
     jobs = order_by_start(jobs)
     print("Server   JobName          Start")
     print("-------- ---------------- ----------------------")
     for job in jobs:
-        session_name = job["JobName"]
-        if len(session_name) > 16:
-            session_name = session_name[:15] + "+"
-        print(f"{job['Server']:<8} {session_name:<16} {job['Start']}")
+        job_name = job["JobName"]
+        if len(job_name) > 16:
+            job_name = job_name[:15] + "+"
+        print(f"{job['Server']:<8} {job_name:<16} {job['Start']}")
     return jobs
 
 
