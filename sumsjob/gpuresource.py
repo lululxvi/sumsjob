@@ -1,3 +1,5 @@
+__all__ = ["gpu_available"]
+
 import os
 import subprocess
 import sys

@@ -1,3 +1,5 @@
+__all__ = ["submit"]
+
 import argparse
 import os
 import pickle
