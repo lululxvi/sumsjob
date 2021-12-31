@@ -18,11 +18,23 @@ def exclude_gpus(lines):
 
 
 def gpustat(machine, stat):
-    lines = stat.split("\n")
+    # Example of stat:
+    # chitu                       Fri Dec 31 01:33:24 2021  470.74
+    # [0] NVIDIA GeForce RTX 3080 | 70'C,  67 % |  3637 / 10018 MB | shuaim:python3/3589(689M)
+    # [1] NVIDIA GeForce RTX 3080 | 66'C,  37 % |  6412 / 10014 MB | shuaim:python3/3589(361M)
+    lines = stat.strip().split("\n")
     lines = exclude_gpus(lines)
     avail = None
-    for l in lines:
-        if l != "" and l.split("|")[-1] == "":
+    for l in lines[1:]:
+        contents = l.split("|")
+        utilization = int(contents[1].split(",", 1)[1].split("%")[0]) / 100
+        memory = contents[2].split("/", 1)
+        memory_used = int(memory[0])
+        memory_total = int(memory[1].split("MB")[0])
+        if (
+            1 - utilization >= config.gpu_utilization
+            and memory_total - memory_used >= config.gpu_memory * 1024
+        ):
             avail = int(l[1])
     return machine, "\n".join(lines), avail
 
@@ -46,6 +58,7 @@ def gpu_available(first_only=False, verbose=0):
     for m, stat, avail in gpuresource():
         if verbose == 2:
             print(stat)
+            print("")
         if gavail is None and avail is not None:
             gm, gavail = m, avail
             if first_only:

@@ -12,6 +12,14 @@ LAN = None
 # Emply list if no GPUs to be excluded
 gpus_exclude = []
 
+# Criterion of using a GPU:
+# (1) its utilization available > gpu_utilization
+# (2) its memory available (GB) > gpu_memory
+# By default, the GPU utilization should <= 10%, i.e., utilization available >= 90%
+gpu_utilization = 0.90
+# By default, the GPU should have >= 4 GB memory available
+gpu_memory = 4
+
 # Root folder of the files
 # A new folder will be created in this root folder to store your codes.
 # For example, if the jobname is "myjob", then the folder is "~/scratch/myjob".
