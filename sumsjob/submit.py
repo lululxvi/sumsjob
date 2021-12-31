@@ -68,6 +68,9 @@ def submit_one(
 ):
     machine, gpuid = get_machine(machine, gpuid, verbose=verbose)
     if machine is None:
+        if verbose > 0:
+            print("Failed to submit.")
+            sys.stdout.flush()
         return
 
     if jobname is None:
@@ -128,7 +131,7 @@ def submit_one(
         subprocess.check_call(cmd, shell=True)
         print(f"Server: {machine}")
         print(f"Job: {jobname}")
-    return runpath
+    return jobname
 
 
 def submit(
@@ -143,37 +146,28 @@ def submit(
     retry_period=60,
     verbose=0,
 ):
-    for _ in range(retry_num - 1):
-        try:
-            return submit_one(
-                jobpy,
-                jobname=jobname,
-                machine=machine,
-                gpuid=gpuid,
-                interact=interact,
-                inobj=inobj,
-                infile=infile,
-                verbose=verbose,
-            )
-        except subprocess.CalledProcessError:
-            if verbose > 0:
-                print("Failed to submit. Wait for %d s..." % retry_period)
-                sys.stdout.flush()
+    for i in range(retry_num):
+        jobname = submit_one(
+            jobpy,
+            jobname=jobname,
+            machine=machine,
+            gpuid=gpuid,
+            interact=interact,
+            inobj=inobj,
+            infile=infile,
+            verbose=verbose,
+        )
+        # Successed
+        if jobname:
+            return jobname
+        # Failed
+        if i < retry_num - 1:
+            print("Wait for %d s...\n" % retry_period)
             time.sleep(retry_period)
-    return submit_one(
-        jobpy,
-        jobname=jobname,
-        machine=machine,
-        gpuid=gpuid,
-        interact=interact,
-        inobj=inobj,
-        infile=infile,
-        verbose=verbose,
-    )
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Submit a job to (GPU) servers.")
+    parser = argparse.ArgumentParser(description="Submit a job to GPU servers.")
     parser.add_argument("jobfile", help="File to be run")
     parser.add_argument(
         "jobname",
@@ -185,6 +179,20 @@ def main():
     )
     parser.add_argument("-s", "--server", help="Server host name")
     parser.add_argument("--gpuid", help="GPU ID to be used; -1 to use CPU only")
+    parser.add_argument(
+        "-n",
+        "--num_retry",
+        default=1,
+        type=int,
+        help="Number of times to retry the submission (Default: 1)",
+    )
+    parser.add_argument(
+        "-p",
+        "--period_retry",
+        default=600,
+        type=int,
+        help="Waiting time (seconds) between two retries after each retry failure (Default: 600)",
+    )
     args = parser.parse_args()
 
     submit(
@@ -193,6 +201,8 @@ def main():
         machine=args.server,
         gpuid=args.gpuid,
         interact=args.interact,
+        retry_num=args.num_retry,
+        retry_period=args.period_retry,
         verbose=2,
     )
 

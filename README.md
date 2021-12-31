@@ -62,7 +62,9 @@ Show the status of GPUs on all servers. For example,
 
 Submit a job to GPU servers. Automatically do the following steps:
 
-1. Find a GPU with low utilization and sufficient memory (the criterion is in the configuration file). You can also specify the server and GPU by `-s SERVER` and `--gpuid GPUID`.
+1. Find a GPU with low utilization and sufficient memory (the criterion is in the configuration file).
+    - If currently no GPU available, it will wait for some time (`-p PERIOD_RETRY`) and then try again, until reaching the maximum retries (`-n NUM_RETRY`).
+    - You can also specify the server and GPU by `-s SERVER` and `--gpuid GPUID`.
 1. Copy the code to the server.
 1. Run the job on it in noninteractive mode (default) or interactive mode (with `-i`).
 1. Save the output in a log file.
@@ -77,6 +79,8 @@ Options:
 - `-i`, `--interact` : Submit as an interactive job
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
+- `-n NUM_RETRY`, `--num_retry NUM_RETRY` : Number of times to retry the submission (Default: 1)
+- `-p PERIOD_RETRY`, `--period_retry PERIOD_RETRY` : Waiting time (seconds) between two retries after each retry failure (Default: 600)
 
 ### `$ sacct`
 
