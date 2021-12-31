@@ -182,9 +182,9 @@ def main():
     parser.add_argument(
         "-n",
         "--num_retry",
-        default=1,
+        default=1000,
         type=int,
-        help="Number of times to retry the submission (Default: 1)",
+        help="Number of times to retry the submission (Default: 1000)",
     )
     parser.add_argument(
         "-p",

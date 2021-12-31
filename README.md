@@ -79,7 +79,7 @@ Options:
 - `-i`, `--interact` : Submit as an interactive job
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
-- `-n NUM_RETRY`, `--num_retry NUM_RETRY` : Number of times to retry the submission (Default: 1)
+- `-n NUM_RETRY`, `--num_retry NUM_RETRY` : Number of times to retry the submission (Default: 1000)
 - `-p PERIOD_RETRY`, `--period_retry PERIOD_RETRY` : Waiting time (seconds) between two retries after each retry failure (Default: 600)
 
 ### `$ sacct`
