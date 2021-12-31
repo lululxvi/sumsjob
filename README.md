@@ -4,12 +4,13 @@
 [![Downloads](https://pepy.tech/badge/sumsjob)](https://pepy.tech/project/sumsjob)
 [![License](https://img.shields.io/github/license/lululxvi/sumsjob)](https://github.com/lululxvi/sumsjob/blob/master/LICENSE)
 
-&Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources such as GPUs. &Sigma;&Sigma;<sub>Job</sub> provides similar key functions for multiple servers as [Slurm Workload Manager](https://slurm.schedmd.com) for supercomputers and computer clusters. It provides four key functions:
+&Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited resources such as GPUs. &Sigma;&Sigma;<sub>Job</sub> provides similar key functions for multiple servers as [Slurm Workload Manager](https://slurm.schedmd.com) for supercomputers and computer clusters. It provides the following key functions:
 
 - show the status of GPUs on all servers,
 - submit a job to servers in noninteractive mode, i.e., the job will be running in the background of the server,
 - submit a job to servers in interactive mode, just as the job is running in your local machine,
-- display all running jobs.
+- display all running jobs,
+- cancel running jobs.
 
 ## Motivation
 
@@ -82,6 +83,12 @@ Options:
 Display all running jobs ordered by the start time. For example,
 
 ![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/sacct.png)
+
+### `$ scancel jobname`
+
+Cancel a running job.
+
+- `jobname` : Job name.
 
 ## Installation
 
