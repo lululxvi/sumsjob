@@ -18,7 +18,7 @@ def order_by_start(jobs):
     return sorted(jobs, key=lambda e: e["Start datetime"])
 
 
-def sacct():
+def sacct(verbose=0):
     jobs = []
     for m in config.servers:
         cmd = "screen -list"
@@ -44,18 +44,19 @@ def sacct():
             jobs.append({"Server": m, "JobName": job_name, "Start": creation_time})
 
     jobs = order_by_start(jobs)
-    print("Server   JobName          Start")
-    print("-------- ---------------- ----------------------")
-    for job in jobs:
-        job_name = job["JobName"]
-        if len(job_name) > 16:
-            job_name = job_name[:15] + "+"
-        print(f"{job['Server']:<8} {job_name:<16} {job['Start']}")
+    if verbose > 0:
+        print("Server   JobName          Start")
+        print("-------- ---------------- ----------------------")
+        for job in jobs:
+            job_name = job["JobName"]
+            if len(job_name) > 16:
+                job_name = job_name[:15] + "+"
+            print(f"{job['Server']:<8} {job_name:<16} {job['Start']}")
     return jobs
 
 
 def main():
-    sacct()
+    sacct(verbose=1)
 
 
 if __name__ == "__main__":
