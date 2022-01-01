@@ -132,7 +132,7 @@ You also need to do the following:
 - Have a configuration file at `~/.sumsjob/config.py`. Use [config.py](https://github.com/lululxvi/sumsjob/blob/master/sumsjob/config.py) as a template, and modify the values to your configurations.
 - Make sure `~/.local/bin` is in your `$PATH`.
 
-Then run `gpuresource` to check if everything works.
+Then run `sinfo` to check if everything works.
 
 ## License
 
