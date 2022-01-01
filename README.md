@@ -119,7 +119,7 @@ Cancel a running job.
 
 ## Installation
 
-Install Sums<sub>Job</sub> with `pip`:
+&Sigma;&Sigma;<sub>Job</sub> requires Python 3.7 or later. Install with `pip`:
 
 ```
 $ pip install sumsjob
