@@ -7,8 +7,8 @@
 &Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited GPUs. &Sigma;&Sigma;<sub>Job</sub> provides similar key functions for multiple servers as [Slurm Workload Manager](https://slurm.schedmd.com) for supercomputers and computer clusters. It provides the following key functions:
 
 - show the status of GPUs on all servers,
-- submit a job to servers in noninteractive mode, i.e., the job will be running in the background of the server,
-- submit a job to servers in interactive mode, just as the job is running in your local machine,
+- submit a job to servers for execution in noninteractive mode, i.e., the job will be running in the background of the server,
+- submit a job to servers for execution in interactive mode, just as the job is running in your local machine,
 - display all running jobs,
 - cancel running jobs.
 
@@ -50,10 +50,10 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps autom
     + Display the output of the program in the terminal of your local machine in real time
     + Kill the job by Ctrl-C
 
-## Usage
+## Commands
 
 - [gpuresource](#-gpuresource)
-- [submit](#-submit-jobfile-jobname)
+- [srun](#-srun-jobfile-jobname)
 - [sacct](#-sacct)
 - [scancel](#-scancel-jobname)
 
@@ -63,9 +63,9 @@ Show the status of GPUs on all servers. For example,
 
 ![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/gpuresource.png)
 
-### `$ submit jobfile [jobname]`
+### `$ srun jobfile [jobname]`
 
-Submit a job to GPU servers. Automatically do the following steps:
+Submit a job to GPU servers for execution. Automatically do the following steps:
 
 1. Find a GPU with low utilization and sufficient memory (the criterion is in the configuration file).
     - If currently no GPU available, it will wait for some time (`-p PERIOD_RETRY`) and then try again, until reaching the maximum retries (`-n NUM_RETRY`).
@@ -81,7 +81,7 @@ Submit a job to GPU servers. Automatically do the following steps:
 Options:
 
 - `-h`, `--help` : Show this help message and exit
-- `-i`, `--interact` : Submit as an interactive job
+- `-i`, `--interact` : Run the job in interactive mode
 - `-s SERVER`, `--server SERVER` : Server host name
 - `--gpuid GPUID` : GPU ID to be used; -1 to use CPU only
 - `-n NUM_RETRY`, `--num_retry NUM_RETRY` : Number of times to retry the submission (Default: 1000)

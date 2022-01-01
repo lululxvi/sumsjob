@@ -1,4 +1,4 @@
-__all__ = ["submit"]
+__all__ = ["run"]
 
 import argparse
 import os
@@ -56,7 +56,7 @@ def pull_files(machine, runpath, verbose=0):
     subprocess.check_call(cmd, shell=True)
 
 
-def submit_one(
+def run_one(
     jobpy,
     jobname=None,
     machine=None,
@@ -134,7 +134,7 @@ def submit_one(
     return jobname
 
 
-def submit(
+def run(
     jobpy,
     jobname=None,
     machine=None,
@@ -147,7 +147,7 @@ def submit(
     verbose=0,
 ):
     for i in range(retry_num):
-        jobname = submit_one(
+        jobname = run_one(
             jobpy,
             jobname=jobname,
             machine=machine,
@@ -167,7 +167,9 @@ def submit(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Submit a job to GPU servers.")
+    parser = argparse.ArgumentParser(
+        description="Submit a job to GPU servers for execution."
+    )
     parser.add_argument("jobfile", help="File to be run")
     parser.add_argument(
         "jobname",
@@ -175,7 +177,7 @@ def main():
         help="Job name, and also the folder name of the job. If not provided, a random number will be used.",
     )
     parser.add_argument(
-        "-i", "--interact", action="store_true", help="Submit as an interactive job"
+        "-i", "--interact", action="store_true", help="Run the job in interactive mode"
     )
     parser.add_argument("-s", "--server", help="Server host name")
     parser.add_argument("--gpuid", help="GPU ID to be used; -1 to use CPU only")
@@ -195,7 +197,7 @@ def main():
     )
     args = parser.parse_args()
 
-    submit(
+    run(
         args.jobfile,
         jobname=args.jobname,
         machine=args.server,
