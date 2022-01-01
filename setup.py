@@ -29,7 +29,7 @@ with io.open("README.md", "r", encoding="utf-8") as f:
 setup(
     name="SumsJob",
     version=version,
-    description="A simple Linux command-line utility which submits a job to one of the multiple servers",
+    description="A simple Linux command-line utility which submits a job to one of the multiple GPU servers",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Lu Lu",
@@ -59,9 +59,10 @@ setup(
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "gpuresource=sumsjob.gpuresource:main",
-            "submit=sumsjob.submit:main",
             "sacct=sumsjob.sacct:main",
+            "scancel=sumsjob.scancel:main",
+            "sinfo=sumsjob.sinfo:main",
+            "srun=sumsjob.srun:main",
         ]
     },
 )
