@@ -52,6 +52,11 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps autom
 
 ## Usage
 
+- [gpuresource](#-gpuresource)
+- [submit](#-submit-jobfile-jobname)
+- [sacct](#-sacct)
+- [scancel](#-scancel-jobname)
+
 ### `$ gpuresource`
 
 Show the status of GPUs on all servers. For example,
