@@ -10,7 +10,7 @@ import time
 
 sys.path.insert(0, os.path.join(os.path.expanduser("~"), ".sumsjob"))
 import config
-from .gpuresource import gpu_available
+from .sinfo import gpu_available
 from .utils import local_cmdline
 
 

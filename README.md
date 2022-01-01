@@ -6,7 +6,7 @@
 
 &Sigma;&Sigma;<sub>Job</sub> or Sums<sub>Job</sub> (**S**imple **U**tility for **M**ultiple-**S**ervers **Job** **Sub**mission) is a simple Linux command-line utility which submits a job to one of the multiple servers each with limited GPUs. &Sigma;&Sigma;<sub>Job</sub> provides similar key functions for multiple servers as [Slurm Workload Manager](https://slurm.schedmd.com) for supercomputers and computer clusters. It provides the following key functions:
 
-- show the status of GPUs on all servers,
+- report the state of GPUs on all servers,
 - submit a job to servers for execution in noninteractive mode, i.e., the job will be running in the background of the server,
 - submit a job to servers for execution in interactive mode, just as the job is running in your local machine,
 - display all running jobs,
@@ -52,14 +52,14 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps autom
 
 ## Commands
 
-- [gpuresource](#-gpuresource)
+- [sinfo](#-sinfo)
 - [srun](#-srun-jobfile-jobname)
 - [sacct](#-sacct)
 - [scancel](#-scancel-jobname)
 
-### `$ gpuresource`
+### `$ sinfo`
 
-Show the status of GPUs on all servers. For example,
+Report the state of GPUs on all servers. For example,
 
 ![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/gpuresource.png)
 
