@@ -61,7 +61,18 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps autom
 
 Report the state of GPUs on all servers. For example,
 
-![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/gpuresource.png)
+```
+$ sinfo
+chitu                       Fri Dec 31 20:05:24 2021  470.74
+[0] NVIDIA GeForce RTX 3080 | 27'C,   0 % |  2190 / 10018 MB | shuaim:python3/3589(2190M)
+[1] NVIDIA GeForce RTX 3080 | 53'C,   7 % |  2159 / 10014 MB | lu:python/241697(2159M)
+
+dilu                           Fri Dec 31 20:05:26 2021  470.74
+[0] NVIDIA GeForce RTX 3080 Ti | 65'C,  73 % |  1672 / 12045 MB | chenxiwu:python/352456(1672M)
+[1] NVIDIA GeForce RTX 3080 Ti | 54'C,  83 % |  1610 / 12053 MB | chenxiwu:python/352111(1610M)
+
+Available GPU: chitu [0]
+```
 
 ### `$ srun jobfile [jobname]`
 
@@ -91,7 +102,14 @@ Options:
 
 Display all running jobs ordered by the start time. For example,
 
-![](https://github.com/lululxvi/sumsjob/blob/master/docs/figs/sacct.png)
+```
+$ sacct
+Server   JobName          Start
+-------- ---------------- ----------------------
+chitu    job1             12/31/2021 07:41:08 PM
+chitu    job2             12/31/2021 08:14:54 PM
+dilu     job3             12/31/2021 08:15:23 PM
+```
 
 ### `$ scancel jobname`
 
