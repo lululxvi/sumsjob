@@ -52,10 +52,10 @@ These steps are boring. &Sigma;&Sigma;<sub>Job</sub> makes all these steps autom
 
 ## Commands
 
-- [sinfo](#-sinfo)
-- [srun](#-srun-jobfile-jobname)
-- [sacct](#-sacct)
-- [scancel](#-scancel-jobname)
+- [sinfo](#-sinfo): Report the state of GPUs on all servers.
+- [srun](#-srun-jobfile-jobname): Submit a job to GPU servers for execution.
+- [sacct](#-sacct): Display all running jobs ordered by the start time.
+- [scancel](#-scancel-jobname): Cancel a running job.
 
 ### `$ sinfo`
 
