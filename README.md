@@ -129,7 +129,7 @@ You also need to do the following:
 
 - Make sure you can `ssh` to each server, ideally without typing the password by SSH keys.
 - Install [gpustat](https://github.com/wookayin/gpustat) in each server.
-- Have a configuration file at `~/.sumsjob/config.py`. Use [config.py](https://github.com/lululxvi/sumsjob/blob/master/sumsjob/config.py) as a template, and modify the values to your configurations.
+- Create a configuration file at `~/.sumsjob/config.py`. Use [config.py](https://github.com/lululxvi/sumsjob/blob/master/sumsjob/config.py) as a template, and modify the values to your configurations.
 - Make sure `~/.local/bin` is in your `$PATH`.
 
 Then run `sinfo` to check if everything works.
