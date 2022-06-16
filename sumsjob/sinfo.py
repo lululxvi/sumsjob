@@ -1,6 +1,7 @@
 __all__ = ["gpu_available"]
 
 import os
+import re
 import subprocess
 import sys
 
@@ -17,6 +18,13 @@ def exclude_gpus(lines):
     return lines
 
 
+def exclude_process(lines):
+    for process in config.sinfo_process_exclude:
+        prog = re.compile(" \S+:" + process + "/\S+")
+        lines = [prog.sub("", l) for l in lines]
+    return lines
+
+
 def gpustat(machine, stat):
     # Example of stat:
     # chitu                       Fri Dec 31 01:33:24 2021  470.74
@@ -24,6 +32,7 @@ def gpustat(machine, stat):
     # [1] NVIDIA GeForce RTX 3080 | 66'C,  37 % |  6412 / 10014 MB | shuaim:python3/3589(361M)
     lines = stat.strip().split("\n")
     lines = exclude_gpus(lines)
+    lines = exclude_process(lines)
     avail = None
     for l in lines[1:]:
         contents = l.split("|")
@@ -36,6 +45,7 @@ def gpustat(machine, stat):
             and memory_total - memory_used >= config.gpu_memory * 1024
         ):
             avail = int(l[1])
+            break
     return machine, "\n".join(lines), avail
 
 
