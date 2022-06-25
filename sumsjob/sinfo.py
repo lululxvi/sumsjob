@@ -79,7 +79,7 @@ def gpu_available(first_only=False, verbose=0):
         return None, None
     else:
         if verbose > 0:
-            print("Available GPU: {} [{}]\n".format(gm, gavail))
+            print("Available GPU: {} [{}]".format(gm, gavail))
         return gm, gavail
 
 
