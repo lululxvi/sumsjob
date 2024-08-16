@@ -20,7 +20,12 @@ def exclude_gpus(lines):
 
 def exclude_process(lines):
     for process in config.sinfo_process_exclude:
-        prog = re.compile(" \S+:" + process + "/\S+")
+        # Formats of a process:
+        # user:process/PID(GPUMemoryUsage)
+        prog = re.compile(" \w+:" + process + "/\d+\(\d+\D\)")
+        lines = [prog.sub("", l) for l in lines]
+        # user:process .../PID(GPUMemoryUsage)
+        prog = re.compile(" \w+:" + process + " [^/]+/\d+\(\d+\D\)")
         lines = [prog.sub("", l) for l in lines]
     return lines
 
